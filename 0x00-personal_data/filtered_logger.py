@@ -5,6 +5,9 @@ filter module
 import re
 import logging
 from typing import List
+import os
+import mysql.connector
+from mysql.connector import errorcode
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -27,6 +30,21 @@ def get_logger() -> logging.Logger:
     return logger
 
 
+def get_db():
+    "connect to secure dataBase"
+    db = mysql.connector.connect(
+        user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+        password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
+        host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+        database=os.getenv('PERSONAL_DATA_DB_NAME')
+    )
+
+    return db
+
+
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
+
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
@@ -47,4 +65,17 @@ class RedactingFormatter(logging.Formatter):
         return super().format(record)
 
 
-PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
+def main():
+    "main function"
+    db = get_db()
+    print(db)
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    for row in cursor:
+        print(row)
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
