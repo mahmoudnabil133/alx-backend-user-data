@@ -7,7 +7,6 @@ import logging
 from typing import List
 import os
 import mysql.connector
-from mysql.connector import errorcode
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -68,11 +67,15 @@ class RedactingFormatter(logging.Formatter):
 def main():
     "main function"
     db = get_db()
-    print(db)
+    logger = get_logger()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
+    fields = [i[0] for i in cursor.description]
     for row in cursor:
-        print(row)
+        msg = [''] * len(row)
+        for i in range(len(row)):
+            msg[i] = f"{fields[i]}={row[i]}"
+        logger.info('; '.join(msg))
     cursor.close()
     db.close()
 
