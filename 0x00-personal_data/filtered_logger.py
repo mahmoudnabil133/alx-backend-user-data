@@ -10,6 +10,6 @@ def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     "filter datum function"
     for f in fields:
-        m = re.sub(f'{f}=.+?{separator}',
+        message = re.sub(f'{f}=.*?{separator}',
                    f'{f}={redaction}{separator}', message)
     return message
