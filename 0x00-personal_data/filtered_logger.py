@@ -76,17 +76,17 @@ class RedactingFormatter(logging.Formatter):
         return super().format(record)
 
 
-def main():
-    "main function"
-    db = get_db()
-    print(db)
-    cursor = db.cursor()
-    cursor.execute("SELECT * FROM users;")
-    for row in cursor:
-        print(row)
-    cursor.close()
-    db.close()
+# def main():
+#     "main function"
+#     db = get_db()
+#     print(db)
+#     cursor = db.cursor()
+#     cursor.execute("SELECT * FROM users;")
+#     for row in cursor:
+#         print(row)
+#     cursor.close()
+#     db.close()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
