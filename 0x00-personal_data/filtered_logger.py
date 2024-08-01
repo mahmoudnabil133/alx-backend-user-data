@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
 "logger module"
+import re
 
-from typing import List
 
-
-def filter_datum(fields: List[str], redaction: str,
-                 message: str, separator: str) -> str:
+def filter_datum(fields, redaction, message, separator):
     "filter datum"
-    messages: List[str] = message.split(separator)
-    i: int = 0
-    for m in messages:
-        if m.split('=')[0] in fields:
-            m = m.replace(m.split('=')[1], redaction)
-            messages[i] = m
-        i += 1
-    return separator.join(messages)
+    for f in fields:
+        message = re.sub(f'{f}=.+?{separator}',
+                         f'{f}={redaction}{separator}', message)
+    return message
