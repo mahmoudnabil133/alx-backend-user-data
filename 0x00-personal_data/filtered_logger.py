@@ -5,9 +5,8 @@ filter module
 import re
 import logging
 from typing import List
-import os
+from os import environ
 import mysql.connector
-from mysql.connector import errorcode
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -31,15 +30,27 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
-    "connect to secure dataBase"
-    db = mysql.connector.connection.MySQLConnection(
-        user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
-        password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
-        host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
-        database=os.getenv('PERSONAL_DATA_DB_NAME')
-    )
+    """ Returns a connector to a MySQL database """
+    username = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    password = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    host = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = environ.get("PERSONAL_DATA_DB_NAME")
 
-    return db
+    cnx = mysql.connector.connection.MySQLConnection(user=username,
+                                                     password=password,
+                                                     host=host,
+                                                     database=db_name)
+    return cnx
+# def get_db() -> mysql.connector.connection.MySQLConnection:
+#     "connect to secure dataBase"
+#     db = mysql.connector.connection.MySQLConnection(
+#         user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
+#         password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ""),
+#         host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+#         database=os.getenv('PERSONAL_DATA_DB_NAME')
+#     )
+
+#     return db
 
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
