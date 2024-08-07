@@ -16,8 +16,11 @@ auth = None
 
 auth = getenv('AUTH_TYPE', None)
 if auth:
-    from api.v1.auth.auth import Auth
-    auth = Auth()
+    from api.v1.auth.auth import Auth, BasicAuth
+    if auth == 'basic_auth':
+        auth = BasicAuth()
+    else:
+        auth = Auth()
 
 
 @app.before_request
@@ -26,6 +29,7 @@ def before_requist():
     print(auth)
     if not auth:
         return
+    # if it does not need auth go here
     if not auth.require_auth(request.path, ['/api/v1/status/',
                                             '/api/v1/unauthorized/',
                                             '/api/v1/forbidden/']):
