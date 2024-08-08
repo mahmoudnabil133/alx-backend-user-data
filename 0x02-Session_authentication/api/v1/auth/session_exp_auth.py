@@ -27,19 +27,25 @@ class SessionExpAuth(SessionAuth):
         return session_id
 
     def user_id_for_session_id(self, session_id=None):
-        "get user id from session id"
-        if not session_id:
+        """
+        Returns a user ID based on a session ID
+        Args:
+            session_id (str): session ID
+        Return:
+            user id or None if session_id is None or not a string
+        """
+        if session_id is None:
             return None
-        session_dic = self.user_id_by_session_id.get(session_id)
-        if not session_id:
+        user_details = self.user_id_by_session_id.get(session_id)
+        if user_details is None:
             return None
-        created_at = session_dic.get('created_at')
-        if not created_at:
+        if "created_at" not in user_details.keys():
             return None
-        user_id = session_dic.get('user_id')
         if self.session_duration <= 0:
-            return user_id
-        window = created_at + timedelta(seconds=self.session_duration)
-        if window < datetime.now():
+            return user_details.get("user_id")
+        created_at = user_details.get("created_at")
+        allowed_window = created_at + timedelta(seconds=self.session_duration)
+        if allowed_window < datetime.now():
             return None
+        return user_details.get("user_id")
         return user_id
