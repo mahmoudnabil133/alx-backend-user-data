@@ -53,7 +53,11 @@ class BasicAuth(Auth):
         if not user_pwd or type(user_pwd) != str:
             return None
         user = {'email': user_email}
-        u = User.search(user)
+        try:
+            u = User.search(user)
+        except Exception:
+            return None
+
         if not u:
             return None
         u = u[0]
