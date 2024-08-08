@@ -9,7 +9,11 @@ class SessionExpAuth(SessionAuth):
     "SessionExAuth"
     def __init__(self):
         "init"
-        self.session_duration = int(getenv('SESSION_DURATION', 0))
+        try:
+            duration = int(getenv('SESSION_DURATION'))
+        except Exception:
+            duration = 0
+        self.session_duration = duration
 
     def create_session(self, user_id=None):
         "create session ovarlap father method"
