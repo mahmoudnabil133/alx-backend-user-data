@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 "login users"
-from flask import request, jsonify
+from flask import request, jsonify, abort
 from models.user import User
 from api.v1.views import app_views
 from os import getenv
@@ -28,3 +28,13 @@ def login():
         cookie_key = getenv('SESSION_NAME')
         res.set_cookie(cookie_key, session_id)
         return res
+
+
+@app_views.route(
+        '/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout():
+    "logout"
+    from api.v1.app import auth
+    if auth.destroy_session(request):
+        return jsonify({}), 200
+    abort(404)
