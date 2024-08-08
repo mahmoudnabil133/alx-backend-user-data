@@ -36,13 +36,16 @@ def before_requist():
     # if it does not need auth go here
     if not auth.require_auth(request.path, ['/api/v1/status/',
                                             '/api/v1/unauthorized/',
-                                            '/api/v1/forbidden/']):
+                                            '/api/v1/forbidden/',
+                                            '/api/v1/auth_session/login/']):
         return
     # if it need auth go here
     if not auth.authorization_header(request):
         abort(401)
     if not auth.current_user(request):
         abort(403)
+    if auth.authorization_header(request) and auth.session_cookie(request):
+        abort(401)
     request.current_user = auth.current_user(request)
 
 
