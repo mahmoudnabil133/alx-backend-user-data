@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+from flask import Flask, session, redirect, url_for, request, render_template, make_response
+
+app = Flask(__name__)
+
+# Set a secret key for the session (required for signing the session cookies)
+app.secret_key = 'your_secret_key_here'
+
+@app.route('/')
+def index():
+    # Check if the user is already logged in by checking the session
+    if 'username' in session:
+        username = session['username']
+        return f'Logged in as {username}'
+    return 'You are not logged in'
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        session['username'] = username  # Create a session
+        response = make_response(redirect(url_for('index')))
+        
+        # Setting a cookie
+        response.set_cookie('username', username, max_age=60*60*24)  # Cookie valid for 1 day
+        
+        return response
+    return '''
+        <form method="post">
+            Username: <input type="text" name="username">
+            <input type="submit" value="Login">
+        </form>
+    '''
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)  # Remove the session
+    response = make_response(redirect(url_for('index')))
+    
+    # Deleting a cookie by setting its expiration time to the past
+    response.set_cookie('username', '', expires=0)
+    
+    return response
+
+if __name__ == '__main__':
+    app.run(debug=True)
