@@ -42,13 +42,13 @@ class BasicAuth(Auth):
             return None, None
         if ':' not in decoded_base64_authorization_header:
             return None, None
-        
+
         name, password = None, None
         for i in len(decoded_base64_authorization_header):
             if decoded_base64_authorization_header[i] == ':':
                 name = decoded_base64_authorization_header[:i]
                 password = decoded_base64_authorization_header[i+1:]
-        
+
         return name, password
 
     def user_object_from_credentials(
