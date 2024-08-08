@@ -48,4 +48,3 @@ class SessionExpAuth(SessionAuth):
         if allowed_window < datetime.now():
             return None
         return user_details.get("user_id")
-        return user_id
