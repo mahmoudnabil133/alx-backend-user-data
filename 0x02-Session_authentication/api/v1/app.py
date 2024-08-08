@@ -40,10 +40,9 @@ def before_requist():
                                             '/api/v1/auth_session/login/']):
         return
 
-    if not auth.authorization_header(request) :
+    if not auth.authorization_header(request):
         if not auth.session_cookie(request):
             abort(401)
-    print(auth.user_id_by_session_id)
     if not auth.current_user(request):
         abort(403)
     request.current_user = auth.current_user(request)
