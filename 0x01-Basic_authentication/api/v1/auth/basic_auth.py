@@ -48,7 +48,6 @@ class BasicAuth(Auth):
             if decoded_base64_authorization_header[i] == ':':
                 name = decoded_base64_authorization_header[:i]
                 password = decoded_base64_authorization_header[i+1:]
-                print(name, password)
                 break
 
         return name, password
