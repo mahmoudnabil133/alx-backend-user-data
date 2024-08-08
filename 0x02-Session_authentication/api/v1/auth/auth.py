@@ -30,6 +30,7 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         "current user"
         return None
+
     def session_cookie(self, request=None):
         " return cookie value for cookie given as env_var"
         if not request:
