@@ -31,9 +31,8 @@ class SessionAuth(Auth):
 
     def current_user(self, request=None):
         "overload Auth current user"
-        if not request:
-            return None
         session_id = self.session_cookie(request)
-        user_id = self.user_id_by_session_id(session_id)
+        user_id = self.user_id_for_session_id(str(session_id))
         cur_user = User.get(user_id)
+        print(session_id, user_id, cur_user)
         return cur_user
