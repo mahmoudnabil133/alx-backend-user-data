@@ -1,0 +1,4 @@
+[main 9a0e3d7] sessionId=
+ 3 files changed, 51 insertions(+), 2 deletions(-)
+ rewrite 0x02-Session_authentication/api/v1/auth/__pycache__/session_auth.cpython-310.pyc (64%)
+ create mode 100755 0x02-Session_authentication/main_3.py
