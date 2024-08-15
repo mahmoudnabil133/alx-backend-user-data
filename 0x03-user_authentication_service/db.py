@@ -27,7 +27,7 @@ class DB:
         """Memoized session object
         """
         if self.__session is None:
-            DBSession = sessionmaker(bind=self._engine, echo=True)
+            DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
 
