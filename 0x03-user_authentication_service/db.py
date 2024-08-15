@@ -34,7 +34,11 @@ class DB:
     def add_user(self, emial, hashed_password):
         "add user to db"
         session = self._session
-        user = User(email=emial, hashed_password=hashed_password)
-        session.add(user)
-        session.commit()
+        try:    
+            user = User(email=emial, hashed_password=hashed_password)
+            session.add(user)
+            session.commit()
+        except:
+            session.rollback()
+            user = None
         return user
