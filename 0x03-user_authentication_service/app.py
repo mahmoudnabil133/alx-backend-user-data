@@ -20,7 +20,7 @@ def register_user():
         Auth.register_user(email, password)
         return jsonify({"email": email, "message": "user created"})
     except Exception:
-        return jsonify({"message": "email already registered"})
+        return jsonify({"message": "email already registered"}), 400
 
 
 if __name__ == "__main__":
