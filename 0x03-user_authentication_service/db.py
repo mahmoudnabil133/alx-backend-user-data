@@ -73,5 +73,6 @@ class DB:
                 raise ValueError
             user.k = v
         session.commit()
+        return None
         
         
