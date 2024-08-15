@@ -16,6 +16,7 @@ def register_user():
     "home route"
     email = request.form.get('email')
     password = request.form.get('password')
+    # print(email, password)
     try:
         Auth.register_user(email, password)
         return jsonify({"email": email, "message": "user created"})
