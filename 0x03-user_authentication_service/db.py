@@ -71,8 +71,9 @@ class DB:
         for k, v in kwargs.items():
             if not hasattr(User, k):
                 raise ValueError
+
+        for k, v in kwargs.items():
             user.k = v
+
         session.commit()
         return None
-        
-        
