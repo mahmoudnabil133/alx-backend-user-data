@@ -31,10 +31,10 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, emial: str, hashed_password: str) -> User:
+    def add_user(self, email: str, hashed_password: str) -> User:
         "add user to db"
         session = self._session
-        user = User(email=emial, hashed_password=hashed_password)
+        user = User(email=email, hashed_password=hashed_password)
         session.add(user)
         session.commit()
         return user
