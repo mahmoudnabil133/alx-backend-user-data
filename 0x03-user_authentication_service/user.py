@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"create user table in sqlalchemy"
-from sqlalchemy import create_engine, Column, Integer, String, Sequence
+"""
+Users model
+"""
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
 
 class User(Base):
-    "users table"
+    """ Represents user object/table
+    """
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
