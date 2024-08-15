@@ -72,5 +72,5 @@ class DB:
             if not hasattr(User, k):
                 raise ValueError
             setattr(user, k, v)
-        session.commit(user)
+        session.commit()
         return None
