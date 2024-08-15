@@ -49,11 +49,11 @@ class DB:
 
         invalid_attrs = set(kwargs) - user_attributes
         if invalid_attrs:
-            raise InvalidRequestError
+            raise InvalidRequestError()
         for k in kwargs:
             if k not in user_attributes:
                 raise InvalidRequestError
         matched_users = session.query(User).filter_by(**kwargs).first()
         if not matched_users:
-            raise NoResultFound
+            raise NoResultFound()
         return matched_users
