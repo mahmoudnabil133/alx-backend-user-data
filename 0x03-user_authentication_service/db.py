@@ -44,8 +44,12 @@ class DB:
     def find_user_by(self, **kwargs):
         "find user"
         session = self._session
-        user_attributes = ['id', 'email', 'hashed_password',
-                           'session_id', 'reset_token']
+        user_attributes = {'id', 'email', 'hashed_password',
+                           'session_id', 'reset_token'}
+
+        invalid_attrs = set(kwargs) - user_attributes
+        if invalid_attrs:
+            raise InvalidRequestError
         for k in kwargs:
             if k not in user_attributes:
                 raise InvalidRequestError
