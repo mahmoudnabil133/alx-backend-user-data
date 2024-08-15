@@ -73,3 +73,4 @@ class DB:
                 raise ValueError
             setattr(user, k, v)
         session.commit()
+        return None
