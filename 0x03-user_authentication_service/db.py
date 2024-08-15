@@ -2,9 +2,11 @@
 """DB module
 """
 from sqlalchemy import create_engine
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base
 from user import User
@@ -38,3 +40,16 @@ class DB:
         session.add(user)
         session.commit()
         return user
+
+    def find_user_by(self, **kwargs):
+        "find user"
+        session = self._session
+        user_attributes = ['id', 'email', 'hashed_password',
+                           'session_id', 'reset_token']
+        for k in kwargs:
+            if k not in user_attributes:
+                raise InvalidRequestError
+        matched_users = session.query(User).filter_by(**kwargs).first()
+        if not matched_users:
+            raise NoResultFound
+        return matched_users
