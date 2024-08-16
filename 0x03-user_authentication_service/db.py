@@ -35,10 +35,9 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         "add user to db"
-        session = self._session
         user = User(email=email, hashed_password=hashed_password)
-        session.add(user)
-        session.commit()
+        self._session.add(user)
+        self._session.commit()
         return user
 
     def find_user_by(self, **kwargs) -> User:
@@ -49,19 +48,12 @@ class DB:
             Return:
                 - User object
         """
-
-        attrs, vals = [], []
-        for attr, val in kwargs.items():
-            if not hasattr(User, attr):
-                raise InvalidRequestError()
-            attrs.append(getattr(User, attr))
-            vals.append(val)
-
-        session = self._session
-        query = session.query(User)
-        user = query.filter(tuple_(*attrs).in_([tuple(vals)])).first()
-        if not user:
+        try:
+            user = self._session.query(User).filter_by(**kwargs).one()
+        except NoResultFound:
             raise NoResultFound()
+        except InvalidRequestError:
+            raise InvalidRequestError()
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:

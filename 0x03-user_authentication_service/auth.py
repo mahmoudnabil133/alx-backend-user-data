@@ -7,7 +7,6 @@ from user import User
 from sqlalchemy.orm.exc import NoResultFound
 
 
-
 def _hash_password(password: str) -> bytes:
     "return hashed password"
     hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
