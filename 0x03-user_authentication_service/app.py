@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 "flask app"
-from flask import Flask, jsonify, request, abort, redirect
+from flask import Flask, jsonify, request, abort, redirect, url_for
 from auth import Auth
 app = Flask(__name__)
 AUTH = Auth()
@@ -48,8 +48,8 @@ def logout():
         sess_id = request.cookies.get('session_id')
         user = AUTH.get_user_from_session_id(sess_id)
         AUTH.destroy_session(user.id)
-        redirect('/')
-    except Exception:
+        return redirect(url_for('home'))
+    except Exception as e:
         abort(403)
 
 
