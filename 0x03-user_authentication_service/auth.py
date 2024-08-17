@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"auth"
+"""
+authentication module
+to hanle signup, login, sessions
+updateing passwords to user
+"""
 
 import bcrypt
 from db import DB
