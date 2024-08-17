@@ -29,7 +29,7 @@ class Auth:
         except NoResultFound:
             new_user = self._db.add_user(email, _hash_password(password))
             return new_user
-    
+
     def valid_login(self, email: str, password: str) -> bool:
         "check if login is valid or not"
         try:
