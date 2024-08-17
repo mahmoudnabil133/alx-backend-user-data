@@ -78,7 +78,7 @@ class Auth:
         "get password reset token and update user in db"
         try:
             reset_token = _generate_uuid()
-            user = self._db.find_user_by(email)
+            user = self._db.find_user_by(email=email)
             self._db.update_user(user.id, reset_token=reset_token)
             return reset_token
         except Exception:
