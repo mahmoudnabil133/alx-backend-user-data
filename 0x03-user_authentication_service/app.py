@@ -57,9 +57,7 @@ def logout():
 def profile():
     "get user profile if logged in"
     sess_id = request.cookies.get('session_id')
-    print(sess_id)
     user = AUTH.get_user_from_session_id(sess_id)
-    print(user)
     if not user:
         abort(403)
     return jsonify({"email": user.email})
