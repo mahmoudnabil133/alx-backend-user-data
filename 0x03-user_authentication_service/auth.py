@@ -82,4 +82,4 @@ class Auth:
             self._db.update_user(user.id, reset_token=reset_token)
             return reset_token
         except Exception:
-            raise ValueError()
+            raise ValueError
